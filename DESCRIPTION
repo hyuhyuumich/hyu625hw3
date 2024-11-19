@@ -1,0 +1,14 @@
+Package: newHyu625Hw3
+Title: biostat625basicfunction
+Version: 0.0.0.9000
+Authors@R: 
+    person("Haiyuan", "Yu", , "hyuhyu@umich.edu", role = c("aut", "cre"),
+           comment = c(ORCID = "YOUR-ORCID-ID"))
+Description: This package is used to tackle the problems in course biostat 625, like count_pairs, find_triangle, ect.
+License: MIT
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
