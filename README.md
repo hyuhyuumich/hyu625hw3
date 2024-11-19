@@ -6,7 +6,9 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of newHyu625Hw3 is to …
+The goal of newHyu625Hw3 is to tackle problems in the Biostatistics 625
+course. It provides a collection of functions for mathematical
+computations, graph analysis, and more.
 
 ## Installation
 
@@ -15,38 +17,72 @@ You can install the development version of newHyu625Hw3 from
 
 ``` r
 # install.packages("pak")
-pak::pak("hyuhyuumich/hyu625hw3")
+# pak::pak("hyuhyuumich/hyu625hw3")
+#Remove the # sign when run the code 
 ```
 
-## Example
+\###Functions Overview:
 
-This is a basic example which shows you how to solve a common problem:
+1.  count_pairs Counts the number of integer pairs (x, y) in {1, 2, …,
+    n} such that x\*y mod (x+y) = m \#Example
 
 ``` r
 library(newHyu625Hw3)
-## basic example code
+#Usage: count_pairs(n, m)
+#Example:
+result <- count_pairs(5, 1)
+print(result)
+#> [1] 3
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`?
-You can include R chunks like so:
+2.  triangle Checks if an undirected graph (defined by a K \* 2 matrix
+    of edges) contains a triangle (cycle of length 3).
 
 ``` r
-summary(cars)
-#>      speed           dist       
-#>  Min.   : 4.0   Min.   :  2.00  
-#>  1st Qu.:12.0   1st Qu.: 26.00  
-#>  Median :15.0   Median : 36.00  
-#>  Mean   :15.4   Mean   : 42.98  
-#>  3rd Qu.:19.0   3rd Qu.: 56.00  
-#>  Max.   :25.0   Max.   :120.00
+#Usage: triangle(edges)
+#Example:
+triangle(matrix(c(1, 2, 2, 3, 3, 1), ncol = 2, byrow = TRUE))
+#> [1] TRUE
 ```
 
-You’ll still need to render `README.Rmd` regularly, to keep `README.md`
-up-to-date. `devtools::build_readme()` is handy for this.
+3.  quadratic Solves the quadratic equation ax^2+bx+c=0 and returns the
+    smallest root.
 
-You can also embed plots, for example:
+``` r
+#Usage: quadratic(a, b, c)
+#Example:
+quadratic(1, -3, 2)
+#> [1] 1
+```
 
-<img src="man/figures/README-pressure-1.png" width="100%" />
+4.  gen_logit Calculates the probabilities for each level of Y in a
+    generalized logit model.
 
-In that case, don’t forget to commit and push the resulting figure
-files, so they display on GitHub and CRAN.
+``` r
+#Usage: gen_logit(matrix_1, x)
+#Example:
+gen_logit(matrix(c(0, 0, 1, 2), nrow = 2, byrow = TRUE), c(1, 0))
+#> [1] 0.2119416 0.2119416 0.5761169
+```
+
+5.  matrix_kendall Computes the Kendall’s τ correlation between each row
+    of a matrix X and y=(1,2,…,n), returning the maximum τ value.
+
+``` r
+#Usage: matrix_kendall(X)
+#Example:
+matrix_kendall(matrix(c(1, 2, 2, 1), ncol = 2, byrow = TRUE))
+#> [1] 1
+```
+
+6.  num_str Finds the first position of a sequence of digits s in the
+    infinite string S=“123456789101112….”
+
+``` r
+#Usage: num_str(input_num)
+#Example:
+num_str("12")
+#> [1] 1
+```
+
+\###License This package is licensed under the MIT License.
