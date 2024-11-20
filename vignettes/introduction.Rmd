@@ -200,6 +200,38 @@ bench::mark(
 )
 
 ```
+##Use of the sample dataset for each function in this package
+```{r}
+##Count pairs
+result <- count_pairs(example_count_pairs[[1]]$n, example_count_pairs[[1]]$m)
+print(result)
+
+## Gen logit 
+logit_result <- gen_logit(example_gen_logit[[1]]$matrix_1, example_gen_logit[[1]]$x)
+print(logit_result)
+
+## Matrix kendall
+result_matrix_kendall <- matrix_kendall(example_matrix_kendall[[1]])
+print(result_matrix_kendall)
+
+## Num str
+result_num_str <- num_str(example_num_str[1])
+print(result_num_str)
+
+## Quadratic
+
+result_quadratic <- quadratic(example_quadratic[[1]]$a, example_quadratic[[1]]$b, example_quadratic[[1]]$c)
+print(result_quadratic)
+
+## Triangle 
+triangle_result <- triangle(example_triangle[[1]])
+print(triangle_result)
+
+```
+
+
+
+
 ###Conclusion
-This vignette showcases the features and capabilities of the hyu625hw3 package. Each function is illustrated with practical examples, and performance comparisons are provided when relevant.
+This vignette showcases the features and capabilities of this package. Each function is illustrated with practical examples, and performance comparisons are provided when relevant.
 
