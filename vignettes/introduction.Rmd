@@ -1,0 +1,205 @@
+---
+title: "Introduction to hyu625hw3"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{introduction}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+# Overview
+
+The `hyu625hw3` package provides a collection of functions for statistical modeling, mathematical computations, and graph analysis. This vignette demonstrates the usage of each function and compares its performance with alternative approaches where applicable.
+
+---
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(newHyu625Hw3)
+```
+
+
+## 1. Count Pairs
+The `count_pairs()` function counts integer pairs `(x, y)` in `{1, 2, ..., n}` such that \(xy \mod (x + y) = m\).
+
+# Example Usage
+```{r count_pairs_example}
+# Example: Count pairs for n=3 and m=1
+result <- count_pairs(3, 1)
+print(result)
+```
+##Performance Comparison
+```{r}
+library(bench)
+
+# Benchmarking
+bench::mark(
+  custom = count_pairs(100, 5),
+  base = sum(outer(1:100, 1:100, FUN = function(x, y) (x * y) %% (x + y) == 5))
+)
+
+```
+
+## 2. Generalized Logit
+The gen_logit() function calculates probabilities for each level in a generalized logit model.
+#Example Usage
+```{r}
+matrix_1 <- matrix(c(1, 0, 0, 1), nrow = 2)
+x <- c(0.5, 0.8)
+
+# Calculate probabilities
+probs <- gen_logit(matrix_1, x)
+print(probs)
+
+```
+#Performance Comparison
+```{r}
+library(bench)
+
+# Example inputs
+matrix_1 <- matrix(c(1, 0, 0, 1), nrow = 2)
+x <- c(0.5, 0.8)
+
+base_gen_logit <- function(matrix_1, x) {
+  K <- nrow(matrix_1)  # Number of categories (excluding reference level 0)
+  linear_preds <- apply(matrix_1, 1, function(row) sum(row * x))  # Linear predictors
+  exp_values <- exp(linear_preds)  # Exponentiated linear predictors
+  probs <- c(1, exp_values) / (1 + sum(exp_values))  # Probabilities for all levels
+  probs
+}
+
+
+bench::mark(
+  custom = gen_logit(matrix_1, x),
+  base = base_gen_logit(matrix_1, x)
+)
+
+
+
+```
+
+## 3. Matrix Kendall
+The matrix_kendall() function computes Kendall's τ for each row of a matrix compared to a ranking vector y.
+
+# Example Usage
+```{r}
+X <- matrix(c(1, 2, 3, 2, 3, 1), nrow = 2, byrow = TRUE)
+
+# Compute Kendall's τ
+max_tau <- matrix_kendall(X)
+print(max_tau)
+
+```
+#Performance Comparison
+```{r}
+library(bench)
+
+# Example input
+X <- matrix(c(1, 2, 3, 2, 3, 1), nrow = 2, byrow = TRUE)
+y <- 1:ncol(X)
+
+# Benchmarking matrix_kendall() against a base R loop approach
+bench::mark(
+  custom = matrix_kendall(X),
+  base = max(apply(X, 1, function(row) cor(row, y, method = "kendall")))
+)
+
+```
+
+## 4. Number string 
+The num_str() function finds the first position of a given sequence of digits in an infinite concatenated string of natural numbers.
+#Example Usage
+```{r}
+# Find the first occurrence of "12"
+num_str("12")
+```
+#Performance Comparison
+```{r}
+library(bench)
+
+# Example input
+input_num <- "12"
+
+base_result <- {
+  s <- paste0(1:10000, collapse = "")
+  regexpr("12", s)[1]  # Extracts the first position directly
+}
+
+bench::mark(
+  custom = num_str("12"),
+  base = {
+    s <- paste0(1:10000, collapse = "")
+    regexpr("12", s)[1]
+  }
+)
+```
+
+## 5. Quadratic Equation Solver
+The quadratic() function solves a quadratic equation and returns the smallest solution.
+#Example Usage
+```{r}
+# Solve the equation x^2 + 4x + 1 = 0
+solution <- quadratic(1, 4, 1)
+print(solution)
+```
+#Performance Comparison
+```{r}
+library(bench)
+
+# Example input
+a <- 1
+b <- 4
+c <- 1
+
+# Benchmarking quadratic() against a simplified direct solution
+bench::mark(
+  custom = quadratic(a, b, c),
+  base = {
+    delta <- b^2 - 4 * a * c
+    if (delta >= 0) min((-b + c(sqrt(delta), -sqrt(delta))) / (2 * a))
+  }
+)
+```
+
+## 6. Triangle Finder
+The triangle() function checks whether a given undirected graph (represented as a matrix of edges) contains any triangles.
+#Example Usage
+```{r}
+edges <- matrix(c(1, 2, 2, 3, 3, 1), nrow = 3, byrow = TRUE)
+
+# Check for triangles
+has_triangle <- triangle(edges)
+print(has_triangle)
+
+```
+#Performance Comparison
+```{r}
+library(bench)
+
+# Example input
+edges <- matrix(c(1, 2, 2, 3, 3, 1), nrow = 3, byrow = TRUE)
+
+# Benchmarking triangle() against an adjacency matrix approach
+bench::mark(
+  custom = triangle(edges),
+  base = {
+    nodes <- unique(c(edges))
+    adj <- matrix(0, nrow = length(nodes), ncol = length(nodes))
+    for (i in 1:nrow(edges)) {
+      adj[edges[i, 1], edges[i, 2]] <- 1
+      adj[edges[i, 2], edges[i, 1]] <- 1
+    }
+    any(rowSums(adj %*% adj > 0 & adj) > 0)
+  }
+)
+
+```
+###Conclusion
+This vignette showcases the features and capabilities of the hyu625hw3 package. Each function is illustrated with practical examples, and performance comparisons are provided when relevant.
+

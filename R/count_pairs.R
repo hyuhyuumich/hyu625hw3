@@ -8,6 +8,9 @@
 #' @examples
 #' count_pairs(1,1)
 #' @export
+#' @useDynLib newHyu625Hw3
+#' @importFrom Rcpp sourceCpp
+#' @export count_pairs_cpp
 count_pairs <- function(n,m) {
   if (is.numeric(n) && is.numeric(m) && floor(n) ==n && floor(m) == m){
     number <- 0

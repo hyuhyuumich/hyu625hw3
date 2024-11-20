@@ -8,6 +8,9 @@
 #' @examples
 #' triangle ( matrix ( c (1 , 2 , 2 , 3) , 2 , 2))
 #' @export
+#' @useDynLib newHyu625Hw3
+#' @importFrom Rcpp sourceCpp
+#' @export triangle_cpp
 triangle <- function(edges) {
 
   if (is.matrix(edges) && ncol(edges) == 2) {

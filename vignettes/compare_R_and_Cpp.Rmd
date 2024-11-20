@@ -1,0 +1,194 @@
+---
+title: "Comparison R and C++"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{compare_R_and_Cpp}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+# Introduction
+This vignette demonstrates the correctness and efficiency comparison between the R and C++ implementations of functions in the `newHyu625Hw3` package. The comparisons are made using the `bench` and `all.equal` functions.
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(newHyu625Hw3)
+library(bench)
+```
+
+##Comparison Check
+
+#1 Count_pairs
+#Correctness check
+```{r}
+n <- 100
+m <- 2
+
+# R implementation
+result_r <- count_pairs(n, m)
+
+# C++ implementation
+result_cpp <- count_pairs_cpp(n, m)
+
+# Check correctness
+all.equal(result_r, result_cpp)
+
+
+```
+#Performance Comparison
+```{r}
+bench::mark(
+  R_version = count_pairs(n, m),
+  Cpp_version = count_pairs_cpp(n, m)
+)
+
+```
+##2 Gen_logit
+#Correctness Check
+```{r}
+matrix_1 <- matrix(rnorm(10), nrow = 2)
+x <- rnorm(5)
+
+# R implementation
+result_r <- gen_logit(matrix_1, x)
+
+# C++ implementation
+result_cpp <- gen_logit_cpp(matrix_1, x)
+
+# Check correctness
+all.equal(result_r, result_cpp)
+
+```
+#Performance Comparison
+```{r}
+# Ensure data validity
+matrix_1 <- matrix(rnorm(10), nrow = 2)
+x <- rnorm(5)
+stopifnot(all(is.finite(matrix_1)))
+stopifnot(all(is.finite(x)))
+
+# R implementation
+result_r <- gen_logit(matrix_1, x)
+
+# C++ implementation
+result_cpp <- gen_logit_cpp(matrix_1, x)
+
+# Correctness check
+all.equal(result_r, result_cpp)
+
+# Performance comparison
+bench::mark(
+  R_version = gen_logit(matrix_1, x),
+  Cpp_version = gen_logit_cpp(matrix_1, x)
+)
+
+```
+
+##3 Matrix_kendall
+#Correctness Check
+```{r}
+set.seed(123)
+X <- matrix(runif(1000), nrow = 100, ncol = 10)
+
+# R implementation
+result_r <- matrix_kendall(X)
+
+# C++ implementation
+result_cpp <- matrix_kendall_cpp(X)
+
+# Check correctness
+all.equal(result_r, result_cpp)
+
+```
+#Performance Comparison
+```{r}
+bench::mark(
+  R_version = matrix_kendall(X),
+  Cpp_version = matrix_kendall_cpp(X)
+)
+
+```
+##4 Num_str
+#Correctness Check
+```{r}
+input_num <- "12345"
+
+# R implementation
+result_r <- num_str(input_num)
+
+# C++ implementation
+result_cpp <- num_str_cpp(input_num)
+
+# Check correctness
+all.equal(result_r, result_cpp)
+
+```
+#Performance Comparison
+```{r}
+bench::mark(
+  R_version = num_str(input_num),
+  Cpp_version = num_str_cpp(input_num)
+)
+
+```
+
+##5 Quadratic
+#Correctness Check
+```{r}
+a <- 1
+b <- -3
+c <- 2
+
+# R implementation
+result_r <- quadratic(a, b, c)
+
+# C++ implementation
+result_cpp <- quadratic_cpp(a, b, c)
+
+# Check correctness
+all.equal(result_r, result_cpp)
+
+```
+#Performance Comparison
+```{r}
+bench::mark(
+  R_version = quadratic(a, b, c),
+  Cpp_version = quadratic_cpp(a, b, c)
+)
+
+```
+
+##6 Triangle
+#Correctness Check
+```{r}
+edges <- matrix(c(1, 2, 2, 3, 3, 1), byrow = TRUE, ncol = 2)
+
+# R implementation
+result_r <- triangle(edges)
+
+# C++ implementation
+result_cpp <- triangle_cpp(edges)
+
+# Check correctness
+all.equal(result_r, result_cpp)
+
+```
+#Performance Comparison
+```{r}
+bench::mark(
+  R_version = triangle(edges),
+  Cpp_version = triangle_cpp(edges)
+)
+
+```
+
+
+##Conclusion
+This vignette showcases how the C++ implementations in this package deliver results identical to their R counterparts while offering substantial performance enhancements. These improvements make the package highly efficient for handling computationally demanding tasks.

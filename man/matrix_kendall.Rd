@@ -14,10 +14,14 @@ matrix_kendall(X)
 \item{y}{A numeric vector.}
 }
 \value{
-An integer that the maximum across all rows.
+An integer that the maximum τ across all rows.
 }
 \description{
-This function computes Kendall's tao between each row of an m*n matrix X and y(1, ... ,n), returning the maxmium tao across all rows.
+Given a set of observations x=(x1,x2,...,xn) and y=(y1,y2,...,yn), Kendall's τ, a non-parametric rank correlation coefficient, is defined as:τ = ((number of concordant pairs) - (number of disconcordant pairs))/((n(-1))/2)
+For 1≤i<j≤n, a pair of observations (xi, yi) and (xj, yj) is:
+Concordant if both xi>xj, yi>yj, or if both xi<xj and yi<yj.
+Discordant if xi>xj and yi<yj or ifxi\if{html}{\out{<xj and yi>}}yj.
+The function should calculate Kendall's τ between each row of X and y=(1,2,...,n), then return the maximun τ value achieved across all rows of X.
 }
 \examples{
 matrix_kendall ( matrix ( c (1 , 2 , 2 , 1) , 2 , 2))

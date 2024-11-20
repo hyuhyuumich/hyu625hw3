@@ -7,6 +7,9 @@
 #' @examples
 #' num_str ("12")
 #' @export
+#' @useDynLib newHyu625Hw3
+#' @importFrom Rcpp sourceCpp
+#' @export num_str_cpp
 num_str <- function(input_num) {
 
   s <- paste0(1:input_num, collapse = "")

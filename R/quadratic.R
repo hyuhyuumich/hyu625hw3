@@ -9,6 +9,10 @@
 #' @examples
 #' quadratic (1 , 4 , 1)
 #' @export
+#' @useDynLib newHyu625Hw3
+#' @importFrom Rcpp sourceCpp
+#' @export quadratic_cpp
+#' @export triangle_cpp
 quadratic <- function(a, b, c) {
   if (is.numeric(a) && is.numeric(b) && is.numeric(c)) {
     if (a != 0) {
